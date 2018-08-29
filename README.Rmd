@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Overview
 This is the repository for my BST 650 course.  Here I will upload my homework and other code.
 
+If I need help on R Markdown formatting, I will use this site: <https://www.markdownguide.org/basic-syntax/>
 
 ## R Markdown
 
