@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 
+
 ## Exercise Set 1
 
 1. Create an object called "myAge" that holds your age *in months*. Hint: the
