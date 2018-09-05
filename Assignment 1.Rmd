@@ -31,6 +31,7 @@ My estimate was exactly the same as in Wolfram Alpha.
 ```
 
 4. Copy and Paste MyAge into the console and press ENTER. What happens? Why?
+
 I got an output of "Error: object 'MyAge' not found," because R is case sensitive.  Therefore, R does not recognize the variable I was using (myAge) as the same as MyAge.
 
 
@@ -40,21 +41,19 @@ I got an output of "Error: object 'MyAge' not found," because R is case sensitiv
 ```{R}
 wtBefore <- c(78, 72, 78, 79, 105)
 wtAfter <- c(67, 65, 79, 70, 93)
-totalLost <- wtBefore-wtAfter
+eachLost <- wtBefore-wtAfter
+eachLLost
+totalLost <-sum(eachLost[1:5], na.rm = FALSE)
 totalLost
 avgWeight <- sum(totalLost[1:5], na.rm = FALSE) / 5
-avgWeight
-totalLost[1]
-totalLost[2]
-totalLost[3]
-totalLost[4]
-totalLost[5]
+avgWeight???#fix this
 ```
 
 2. Create the following vectors using the rep() and seq() functions:
-    a) the first non-negative integer powers of 2
-don't understand question
-    
+    a) the first 30 non-negative integer powers of 2
+```{R}
+2^(0:10)
+```    
     b) 1, 1.5, 2, 2.5, ..., 12
 ```{R}
 seq(from = 1, to = 12, by = 0.5)
