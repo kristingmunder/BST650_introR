@@ -386,6 +386,46 @@ with mean identically $0$ and variance $\nu / (\nu - 2)$. This and other distrib
 \]
 where $\mathbb{N}$ is the set of counting numbers and $!$ is the [factorial operator](https://en.wikipedia.org/wiki/Factorial) (the $\Gamma$ function is technically defined for all complex numbers with a positive real component, but that's a conversation for your mathematical statistics class). Repeat the process I applied to the Negative Binomial distribution, but with a population variance of 2. Generate samples of sizes 5, 15, 25, and 1000 from such a distribution, and calculate their sample means and variances. 
 
+I calculated: v (df) = 4
+
+```{r}
+set.seed(123)
+# Sample Size of 5:
+xT_n5 <- rt(n = 5, df = 4)
+
+xT_n5
+
+mean(xT_n5)
+
+var(xT_n5)
+```
+
+For this random sample with n=5, we see that that mean is slightly smaller than we expected (-0.4666473 instead of 0), and the variance is a bit smaller than we expected (0.8654073 instead of 2). 
+
+Now, we will increase the sample size from 5 to 15, 25, and 1000.
+```{r}
+# Sample Size of 15
+xT_n15 <- rt(n = 15, df = 4)
+xT_n15
+mean(xT_n15)
+var(xT_n15)
+
+#### For this random sample with n=15, we see that that mean is very slightly smaller than we expected (-0.02957297 instead of 0), and the variance is smaller than we expected (0.8797166 instead of 2).  As we increase n, the sample means and variances get closer to our population means and variances.
+
+# Sample Size of 25
+xT_n25 <- rt(n = 25, df = 4)
+mean(xT_n25)
+var(xT_n25)
+
+#### For this random sample with n=25, we see that that mean is very slightly larger than we expected (0.1398457 instead of 0), and the variance is slightly smaller than we expected (3.566582 instead of 2).  As we increase n, the sample means and variances typically get closer to our population means and variances.  However, at n=25, the sample variance is still quite far off from our population variance.
+
+# Sample Size of 1000
+xT_n1000 <- rt(n = 1000, df = 4)
+mean(xT_n1000)
+var(xT_n1000)
+
+#### For this random sample with n=1000, we see that that mean is very slightly larger than we expected (0.05973646 instead of 0), and the variance is slightly larger than we expected (2.539913 instead of 2).  As we increase n, the sample means and variances get closer to our population means and variances.
+```
 
 ### $\chi ^ 2$ Distribution
 The probability density function for the $\chi ^ 2$ Distribution (also typeset as the Chi-Squared Distribution) is
@@ -394,6 +434,45 @@ The probability density function for the $\chi ^ 2$ Distribution (also typeset a
 \]
 with mean $\nu$ and variance $2 \nu$. Repeat the process I applied to the Negative Binomial distribution, but with a population mean of 2 (and thus a variance of 4). Generate samples of sizes 5, 15, 25, and 1000 from such a distribution, and calculate their sample means and variances. 
 
+I calculated: v (df) = 2
+
+```{r}
+set.seed(123)
+# Sample Size of 5:
+xC_n5 <- rchisq(n = 5, df = 2)
+
+xC_n5
+
+mean(xC_n5)
+
+var(xC_n5)
+```
+
+For this random sample with n=5, we see that that mean is a bit larger than we expected (3.122728 instead of 2), and the variance is a bit larger than we expected (5.145684 instead of 4). 
+
+Now, we will increase the sample size from 5 to 15, 25, and 1000.
+```{r}
+# Sample Size of 15
+xC_n15 <- rchisq(n = 15, df = 2)
+mean(xC_n15)
+var(xC_n15)
+
+#### For this random sample with n=15, we see that that mean is slightly larger than we expected (2.248956 instead of 2), and the variance is much smaller than we expected (1.497102 instead of 4).  As we increase n, the sample means and variances tend to get closer to our population means and variances.
+
+# Sample Size of 25
+xC_n25 <- rchisq(n = 25, df = 2)
+mean(xC_n25)
+var(xC_n25)
+
+#### For this random sample with n=25, we see that that mean is slightly larger than we expected (2.24683 instead of 2), and the variance is much larger than we expected (7.054499 instead of 4).  As we increase n, the sample means and variances typically get closer to our population means and variances.  However, at n=25, the sample variance is still quite far off from our population variance.
+
+# Sample Size of 1000
+xC_n1000 <- rchisq(n = 1000, df = 2)
+mean(xC_n1000)
+var(xC_n1000)
+
+#### For this random sample with n=1000, we see that that mean is very slightly smaller than we expected (1.997814 instead of 2), and the variance is slightly smaller than we expected (3.925057 instead of 4).  As we increase n, the sample means and variances get closer to our population means and variances.
+```
 
 ### $F$-Distribution
 The probability density function for the $F$-Distribution is
@@ -405,3 +484,40 @@ with mean $m / (m - 2)$ and variance
 \frac{2m ^ 2 (n + m - 2)}{n (m - 2) ^ 2 (m - 4)},\ m > 4.
 \]
 Repeat the process I applied to the Negative Binomial distribution, but with a population mean of 1.2 and variance of 0.4. Generate samples of sizes 5, 15, 25, and 1000 from such a distribution, and calculate their sample means and variances. 
+
+I calculated: m (df2) = 12 and n (df1) = 90
+
+```{r}
+set.seed(123)
+# Sample Size of 5:
+xF_n5 <- rf(n = 5, df1 = 90, df2 = 12)
+xF_n5
+mean(xF_n5)
+var(xF_n5)
+```
+
+For this random sample with n=5, we see that that mean is slightly larger than we expected (1.459374 instead of 1.2), and the variance is slightly larger than we expected (0.4466159 instead of 0.4). 
+
+Now, we will increase the sample size from 5 to 15, 25, and 1000.
+```{r}
+# Sample Size of 15
+xF_n15 <- rf(n = 15, df1 = 90, df2 = 12)
+mean(xF_n15)
+var(xF_n15)
+
+#### For this random sample with n=15, we see that that mean is slightly smaller than we expected (0.9343352 instead of 1.2), and the variance is slightly smaller than we expected (0.2142377 instead of 0.4).  As we increase n, the sample means and variances tend to get closer to our population means and variances.
+
+# Sample Size of 25
+xF_n25 <- rf(n = 25, df1 = 90, df2 = 12)
+mean(xF_n25)
+var(xF_n25)
+
+#### For this random sample with n=25, we see that that mean is slightly smaller than we expected (1.084133 instead of 1.2), and the variance is slightly smaller than we expected (0.2630517 instead of 0.4).  As we increase n, the sample means and variances get closer to our population means and variances.  
+
+# Sample Size of 1000
+xF_n1000 <- rf(n = 1000, df1 = 90, df2 = 12)
+mean(xF_n1000)
+var(xF_n1000)
+
+#### For this random sample with n=1000, we see that that mean is very close to what we expected (1.203602 instead of 1.2), and the variance is slightly smaller than we expected (0.3639529 instead of 0.4).  As we increase n, the sample means and variances get closer to our population means and variances.
+```
