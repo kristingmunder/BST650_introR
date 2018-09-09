@@ -133,11 +133,6 @@ LETTERS[seq(from = 1, to = 25, by = 2)]
 isVowel <- LETTERS %in% c("A", "E", "I", "O", "U")
 LETTERS[!isVowel]
 ```   
-    
-2. Explore Discete Statistical Distributions. For each of the following discrete distributions, I will give you the population mean and variance. Given the population information for each distribution, you will algebraically infer the distributional parameters to the best of your ability for the respective distributions. Then, given the inferred parameters, you will generate and store samples of size 5, 15, 25, and 1000. Finally, you will calculate the sample mean and variance of each sample for each distribution. I will give an example of the negative binomial distribution first, and I'll type the math for the distributions (since you don't know LaTeX yet). You need to fill out the rest for each distribution.
-3. Explore Continuous Statistical Distributions. Repeat the above. Once again, sample with sizes 5, 15, 25, and 1000.
-
-Here is a link of the common statistical distributions in standard `R`: <https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Distributions.html>.
 
 
 </br>
