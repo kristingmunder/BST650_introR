@@ -380,7 +380,7 @@ hist(xN_n10000)
     ####iii. plot the estimated density of this subset.
 plot(density(xN_n10000))
 
-####For this continuous distribution, the density plot gave the better representation of the full data for smaller values of n, because you were able to better understand all the data in a wider context and perhaps better see the distribution compared to the histogram.  To be fair, the density plot may give a better representation  
+####At n = 10000, the data is nicely represented in the histogram, but also nicely approximated in the density plot since the data is assumed to be normal.
 ```
 
 ```{R}
@@ -392,6 +392,10 @@ hist(xT_n10000)
     ####iii. plot the estimated density of this subset.
 plot(density(xT_n10000))
 
+####For n = 10000, the data is nicely represented in the histogram.  It is also nicely approximated in the density plot since the data is assumed to be normal and the t distribution is similar to the normal distribution.
+```
+
+```{R}
 ##Chi^2
     ####i. calculate the 5-Number Summary,
 summary(xC_n10000)
@@ -400,6 +404,10 @@ hist(xC_n10000)
     ####iii. plot the estimated density of this subset.
 plot(density(xC_n10000))
 
+####For n = 10000, this density plot looks very similar to what we would expect of a Chi^2 distribution with this number of df.  The data is nicely represented in the histogram, but also nicely approximated in the density plot since while the data is skewed, the n is large. 
+```
+
+```{R}
 ##F
     ####i. calculate the 5-Number Summary,
 summary(xF_n10000)
@@ -408,6 +416,10 @@ hist(xF_n10000)
     ####iii. plot the estimated density of this subset.
 plot(density(xF_n10000))
 
+####For n = 10000, this density plot looks very similar to what we would expect of a F distribution with this number of df.  The data is nicely represented in the histogram, but also nicely approximated in the density plot since while the data is skewed, the n is large.  
+```
+
+```{R}
 ##Binomial
     ####i. calculate the 5-Number Summary,
 summary(xB_n10000)
@@ -416,6 +428,10 @@ hist(xB_n10000)
     ####iii. plot the estimated density of this subset.
 plot(density(xB_n10000))
 
+####For n = 10000, this density plot is not a good representation of the binomial distribution.  Since this is discrete, the density plot function makes assumptions that the data is normalized and poorly represents it.  The histogram is a better representation of the data. 
+```
+
+```{R}
 ##Negative Binomial
     ####i. calculate the 5-Number Summary,
 summary(xNB_n10000)
@@ -424,6 +440,10 @@ hist(xNB_n10000)
     ####iii. plot the estimated density of this subset.
 plot(density(xNB_n10000))
 
+####For n = 10000, this density plot is not a good representation of the negative binomial distribution.  Since this is discrete data, the density plot function makes assumptions that the data is normalized and poorly represents it.  The histogram is a better representation of the data. 
+```
+
+```{R}
 ##Poisson
     ####i. calculate the 5-Number Summary,
 summary(xP_n10000)
@@ -431,13 +451,72 @@ summary(xP_n10000)
 hist(xP_n10000)
     ####iii. plot the estimated density of this subset.
 plot(density(xP_n10000))
+
+####For n = 10000, this density plot is not a good representation of the Poisson distribution.  The density plot function makes assumptions that the data is normalized and poorly represents it.  The histogram is a better representation of the data. 
+
+####For small sample sizes and continuous distributions it is better to use a density plot if the data is symmetric and not skewed.  However, if the data is skewed, the density plot cannot handle it for small sample sizes.  With large sample sizes for both skewed and not skewed continuous data, the density plot is better than a histogram. For discrete distributions at all sample sizes, a histogram is best.
 ```
-
 5. Contrast the 5-Number Summaries at each of the sample sizes (6, 10, 20, 30, 50, and 10000) for the skewed distributions vs. the symmetric distributions.
+```{R}
+####For the skewed distributions, as the sample size increases the mean takes longer (n must increase more) before it reaches the expected value compared to the symmetric distribution.  For example at n = 50, the mean for the normal distribution is 1.98 which is very close to the expected value of 2.  However, at n = 50, the mean for the Chi^2 distribution is 1.82 which is much farther from the expected value 2.  With a distributiion with the same variance, if your skewness is lower your mean will be closer to what is expected.
 
+xN_n10000 <- rnorm(n = 10000, mean = 2, sd = sqrt(5))    
+xT_n10000 <- rt(n = 10000, df = 4)
+xC_n10000 <- rchisq(n = 10000, df = 2)
+xF_n10000 <- rf(n = 10000, df1 = 90, df2 = 12)
+xB_n10000 <- rbinom(n = 10000, size = 9, prob = (2/3))
+xNB_n10000 <- rnbinom(n = 10000, size = 5, prob = 0.5)
+xP_n10000 <- rpois(n = 10000, lambda = 3)
 
+summary(xN_n10000[1:6])
+summary(xN_n10000[1:10])
+summary(xN_n10000[1:20])
+summary(xN_n10000[1:30])
+summary(xN_n10000[1:50])
+summary(xN_n10000[1:10000])
 
+summary(xT_n10000[1:6])
+summary(xT_n10000[1:10])
+summary(xT_n10000[1:20])
+summary(xT_n10000[1:30])
+summary(xT_n10000[1:50])
+summary(xT_n10000[1:10000])
 
+summary(xC_n10000[1:6])
+summary(xC_n10000[1:10])
+summary(xC_n10000[1:20])
+summary(xC_n10000[1:30])
+summary(xC_n10000[1:50])
+summary(xC_n10000[1:10000])
 
+summary(xF_n10000[1:6])
+summary(xF_n10000[1:10])
+summary(xF_n10000[1:20])
+summary(xF_n10000[1:30])
+summary(xF_n10000[1:50])
+summary(xF_n10000[1:10000])
+
+summary(xB_n10000[1:6])
+summary(xB_n10000[1:10])
+summary(xB_n10000[1:20])
+summary(xB_n10000[1:30])
+summary(xB_n10000[1:50])
+summary(xB_n10000[1:10000])
+
+summary(xNB_n10000[1:6])
+summary(xNB_n10000[1:10])
+summary(xNB_n10000[1:20])
+summary(xNB_n10000[1:30])
+summary(xNB_n10000[1:50])
+summary(xNB_n10000[1:10000])
+
+summary(xP_n10000[1:6])
+summary(xP_n10000[1:10])
+summary(xP_n10000[1:20])
+summary(xP_n10000[1:30])
+summary(xP_n10000[1:50])
+summary(xP_n10000[1:10000])
+
+```
 
 
