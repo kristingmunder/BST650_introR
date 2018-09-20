@@ -1,0 +1,73 @@
+---
+title: "intRo4"
+author: "Kristin Gmunder"
+date: "9/17/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r person_vectors}
+# Build the vector
+Kristin <- c("Gmunder", "Kristin", "BS", 21, "Brickell", "FL", "NJ")
+
+# Inspect the vector
+Kristin
+```
+
+```{r person_vectors2}
+Kristin <- c(
+  Surname = "Gmunder", 
+  FirstName = "Kristin", 
+  HighestDegree = "BS", 
+  Age = 21, 
+  City = "Brickell", 
+  State = "FL", 
+  MovedFrom = "NJ"
+  )
+
+Kristin
+```
+
+```{r classIntro}
+class(Kristin[4])
+```
+
+```{r promotion}
+class(TRUE)
+class(c(TRUE, 1L))
+class(c(TRUE, 1L, 2.1))
+class(c(TRUE, 1L, 2.1,"yeaahhhh"))
+```
+
+```{r person_list}
+Kristin_ls <- list(
+  Surname = "Gmunder", 
+  FirstName = "Kristin", 
+  HighestDegree = "BS", 
+  Age = 21, 
+  City = "Brickell", 
+  State = "FL", 
+  MovedFrom = "NJ" 
+)
+
+Kristin_ls
+```
+
+```{r person_df}
+Kristin_df <- data.frame(
+    Surname = "Gmunder", 
+  FirstName = "Kristin", 
+  HighestDegree = "BS", 
+  Age = 21, 
+  City = "Brickell", 
+  State = "FL", 
+  MovedFrom = "NJ" 
+)
+
+Kristin_df
+
+```
+
