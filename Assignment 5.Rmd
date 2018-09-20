@@ -1,0 +1,42 @@
+---
+title: "Assignment 5"
+author: "Kristin Gmunder"
+date: "9/19/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Exercises
+1. Create a list with four elements:
+    a. the character string `"Normal"` to represent the distribution
+    b. a named vector of the population parameters
+    c. a vector of 15 samples from a normal distribution with mean 2 and variance 5
+    d. the components of a histogram of these samples
+```{R}
+xN_ls <- list(a = "Normal", b = c("mean = 2", "variance = 5"), c = c(rnorm(n =15, mean = 2, sd = sqrt(5))))
+xN_ls[["d"]] <- hist(xN_ls[[3]])
+```
+    
+2. Print the distribution name and parameters (at the same time), and plot the saved histogram.
+```{R}
+xN_ls[1:2]
+plot(xN_ls[[4]])
+```
+
+3. Print the summary and variance of this sample.
+```{R}
+summary(xN_ls[[3]])
+var(xN_ls[[3]])
+```
+
+4. Test the hypothesis that these observations came from the distribution specified. Store the $p$-value, test statistic, critical value, and decision (reject or fail to reject) as new elements of the list.
+H0:   Sample data come from the stated distribution. 
+Ha:   Sample data do not come from the stated distribution.
+
+
+
+5. Repeat this for the rest of the distributions we inspected in Assignment 4. Did you reject the null hypothesis for any of the distributions? If so, which ones. If so, why do you think you rejected the null hypothesis for these distributions? If not, why not?
+
