@@ -16,8 +16,12 @@ knitr::opts_chunk$set(echo = TRUE)
     c. a vector of 15 samples from a normal distribution with mean 2 and variance 5
     d. the components of a histogram of these samples
 ```{R}
-xN_ls <- list(a = "Normal", b = c("mean = 2", "variance = 5"), c = c(rnorm(n =15, mean = 2, sd = sqrt(5))))
-xN_ls[["d"]] <- hist(xN_ls[[3]])
+xN_ls <- list(
+  distName = "Normal", 
+  parameters = c(mean = 2, variance = 5), 
+  sample = rnorm(n = 15, mean = 2, sd = sqrt(5))
+  )
+xN_ls[["histogram"]] <- hist(xN_ls[[3]])
 ```
     
 2. Print the distribution name and parameters (at the same time), and plot the saved histogram.
@@ -33,10 +37,202 @@ var(xN_ls[[3]])
 ```
 
 4. Test the hypothesis that these observations came from the distribution specified. Store the $p$-value, test statistic, critical value, and decision (reject or fail to reject) as new elements of the list.
-H0:   Sample data come from the stated distribution. 
-Ha:   Sample data do not come from the stated distribution.
 
+$H_0: \mu = \mu_0;\quad H_A: \mu \ne \mu_0.$
 
+```{r}
+ttest_N <- t.test(
+  x = xN_ls$sample,
+  alternative = "two.sided",
+  mu = xN_ls[[2]][[1]]
+)
+ttest_N$statistic
+ttest_N$p.value
+critVal_N <- qt(0.975, df = 15 - 1)
+abs(ttest_N$statistic) > critVal_N
+xN_ls$pVal <- ttest_N$p.value
+xN_ls$testStat <- ttest_N$statistic
+xN_ls$critVal <- critVal_N
+xN_ls$decision <- "Fail to Reject the Hypothesis that the True Mean Equals 2"
+xN_ls
+```
 
 5. Repeat this for the rest of the distributions we inspected in Assignment 4. Did you reject the null hypothesis for any of the distributions? If so, which ones. If so, why do you think you rejected the null hypothesis for these distributions? If not, why not?
+
+####Student's T Distribution:
+$H_0: \mu = \mu_0;\quad H_A: \mu \ne \mu_0.$
+```{R}
+set.seed(1234)
+xT_ls <- list(
+  distName = "Student's T-distribution", 
+  parameters = c(mean = 0, df = 4), 
+  sample = rt(n = 15, df = 4)
+  )
+xT_ls[["histogram"]] <- hist(xT_ls[[3]])
+```
+
+```{r}
+ttest_T <- t.test(
+  x = xT_ls$sample,
+  alternative = "two.sided",
+  mu = xT_ls[[2]][[1]]
+)
+ttest_T$statistic
+ttest_T$p.value
+critVal_T <- qt(0.975, df = 15 - 1)
+abs(ttest_T$statistic) > critVal_T
+xT_ls$pVal <- ttest_T$p.value
+xT_ls$testStat <- ttest_T$statistic
+xT_ls$critVal <- critVal_T
+xT_ls$decision <- "Fail to Reject the Hypothesis that the True Mean Equals 2"
+xT_ls
+```
+
+####Chi-Squared Distribution:
+$H_0: \mu = \mu_0;\quad H_A: \mu \ne \mu_0.$
+```{r}
+set.seed(1234)
+xC_ls <- list(
+  dist   = "Chi-Squared",
+  params = c(df = 2),
+  sample = rchisq(n = 15, df = 2)
+)
+xC_ls[["histogram"]] <- hist(xC_ls[[3]])
+```
+
+```{R}
+hist(xC_ls$sample)
+ttest_C <- t.test(
+  x = xC_ls$sample,
+  alternative = "two.sided",
+  mu = xC_ls$params
+)
+ttest_C$statistic
+ttest_C$p.value
+critVal_C <- qt(0.975, df = 15 - 1)
+abs(ttest_C$statistic) > critVal_C
+xC_ls$pVal <- ttest_C$p.value
+xC_ls$testStat <- ttest_C$statistic
+xC_ls$critVal <- critVal_C
+xC_ls$decision <- "Fail to Reject the Hypothesis that the True Mean Equals 2"
+xC_ls
+```
+
+####F Distribution:
+$H_0: \mu = \mu_0;\quad H_A: \mu \ne \mu_0.$
+```{R}
+set.seed(1234)
+xF_ls <- list(
+  distName = "F distribution", 
+  parameters = c(mean = 1.2, df1 = 90, df2 = 12), 
+  sample = rf(n = 15, df1 = 90, df2 = 12)
+  )
+xF_ls[["histogram"]] <- hist(xF_ls[[3]])
+```
+
+```{r}
+ttest_F <- t.test(
+  x = xF_ls$sample,
+  alternative = "two.sided",
+  mu = xF_ls[[2]][[1]]
+)
+ttest_F$statistic
+ttest_F$p.value
+critVal_F <- qt(0.975, df = 15 - 1)
+abs(ttest_F$statistic) > critVal_F
+xF_ls$pVal <- ttest_F$p.value
+xF_ls$testStat <- ttest_F$statistic
+xF_ls$critVal <- critVal_F
+xF_ls$decision <- "Fail to Reject the Hypothesis that the True Mean Equals 1.2"
+xF_ls
+```
+
+####Binomial Distribution:
+$H_0: \mu = \mu_0;\quad H_A: \mu \ne \mu_0.$
+```{R}
+set.seed(1234)
+xB_ls <- list(
+  distName = "Binomial distribution", 
+  parameters = c(mean = 6, size = 9, prob = (2/3)), 
+  sample = rbinom(n = 15, size = 9, prob = (2/3))
+  )
+xB_ls[["histogram"]] <- hist(xB_ls[[3]])
+```
+
+```{r}
+ttest_B <- t.test(
+  x = xB_ls$sample,
+  alternative = "two.sided",
+  mu = xB_ls[[2]][[1]]
+)
+ttest_B$statistic
+ttest_B$p.value
+critVal_B <- qt(0.975, df = 15 - 1)
+abs(ttest_B$statistic) > critVal_B
+xB_ls$pVal <- ttest_B$p.value
+xB_ls$testStat <- ttest_B$statistic
+xB_ls$critVal <- critVal_B
+xB_ls$decision <- "Fail to Reject the Hypothesis that the True Mean Equals 6"
+xB_ls
+```
+
+####Negative Binomial Distribution:
+$H_0: \mu = \mu_0;\quad H_A: \mu \ne \mu_0.$
+```{R}
+set.seed(1234)
+xNB_ls <- list(
+  distName = "Negative Binomial distribution", 
+  parameters = c(mean = 5, size = 5, prob = 0.5), 
+  sample = rnbinom(n = 15, size = 5, prob = 0.5)
+  )
+xNB_ls[["histogram"]] <- hist(xNB_ls[[3]])
+```
+
+```{r}
+ttest_NB <- t.test(
+  x = xNB_ls$sample,
+  alternative = "two.sided",
+  mu = xNB_ls[[2]][[1]]
+)
+ttest_NB$statistic
+ttest_NB$p.value
+critVal_NB <- qt(0.975, df = 15 - 1)
+abs(ttest_NB$statistic) > critVal_NB
+xNB_ls$pVal <- ttest_NB$p.value
+xNB_ls$testStat <- ttest_NB$statistic
+xNB_ls$critVal <- critVal_NB
+xNB_ls$decision <- "Fail to Reject the Hypothesis that the True Mean Equals 5"
+xNB_ls
+```
+
+####Poisson Distribution:
+$H_0: \mu = \mu_0;\quad H_A: \mu \ne \mu_0.$
+```{R}
+set.seed(1234)
+xP_ls <- list(
+  distName = "Poisson distribution", 
+  parameters = c(lambda = 3), 
+  sample = rpois(n = 15, lambda = 3)
+  )
+xP_ls[["histogram"]] <- hist(xP_ls[[3]])
+```
+
+```{r}
+ttest_P <- t.test(
+  x = xP_ls$sample,
+  alternative = "two.sided",
+  mu = xP_ls[[2]][[1]]
+)
+ttest_P$statistic
+ttest_P$p.value
+critVal_P <- qt(0.975, df = 15 - 1)
+abs(ttest_P$statistic) > critVal_P
+xP_ls$pVal <- ttest_P$p.value
+xP_ls$testStat <- ttest_P$statistic
+xP_ls$critVal <- critVal_P
+xP_ls$decision <- "Fail to Reject the Hypothesis that the True Mean Equals 3"
+xP_ls
+```
+
+
 
