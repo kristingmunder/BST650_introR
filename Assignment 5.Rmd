@@ -87,6 +87,7 @@ xT_ls$critVal <- critVal_T
 xT_ls$decision <- "Fail to Reject the Hypothesis that the True Mean Equals 2"
 xT_ls
 ```
+I failed to reject the null hypothesis because the test statistic was not greater than the critical value.
 
 ####Chi-Squared Distribution:
 $H_0: \mu = \mu_0;\quad H_A: \mu \ne \mu_0.$
@@ -117,6 +118,7 @@ xC_ls$critVal <- critVal_C
 xC_ls$decision <- "Fail to Reject the Hypothesis that the True Mean Equals 2"
 xC_ls
 ```
+I failed to reject the null hypothesis because the test statistic was not greater than the critical value.
 
 ####F Distribution:
 $H_0: \mu = \mu_0;\quad H_A: \mu \ne \mu_0.$
@@ -146,6 +148,7 @@ xF_ls$critVal <- critVal_F
 xF_ls$decision <- "Fail to Reject the Hypothesis that the True Mean Equals 1.2"
 xF_ls
 ```
+I failed to reject the null hypothesis because the test statistic was not greater than the critical value.
 
 ####Binomial Distribution:
 $H_0: \mu = \mu_0;\quad H_A: \mu \ne \mu_0.$
@@ -175,6 +178,7 @@ xB_ls$critVal <- critVal_B
 xB_ls$decision <- "Fail to Reject the Hypothesis that the True Mean Equals 6"
 xB_ls
 ```
+I failed to reject the null hypothesis because the test statistic was not greater than the critical value.
 
 ####Negative Binomial Distribution:
 $H_0: \mu = \mu_0;\quad H_A: \mu \ne \mu_0.$
@@ -204,6 +208,7 @@ xNB_ls$critVal <- critVal_NB
 xNB_ls$decision <- "Fail to Reject the Hypothesis that the True Mean Equals 5"
 xNB_ls
 ```
+I failed to reject the null hypothesis because the test statistic was not greater than the critical value.
 
 ####Poisson Distribution:
 $H_0: \mu = \mu_0;\quad H_A: \mu \ne \mu_0.$
@@ -233,6 +238,6 @@ xP_ls$critVal <- critVal_P
 xP_ls$decision <- "Fail to Reject the Hypothesis that the True Mean Equals 3"
 xP_ls
 ```
-
+I failed to reject the null hypothesis because the test statistic was not greater than the critical value.
 
 
