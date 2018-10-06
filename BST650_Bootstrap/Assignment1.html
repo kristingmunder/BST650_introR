@@ -205,6 +205,109 @@ z</code></pre>
 <pre><code>## [1] 0 0 0 0</code></pre>
 <pre class="r"><code>center(z, 3)</code></pre>
 <pre><code>## [1] 3 3 3 3</code></pre>
+<pre class="r"><code>dat &lt;- read.csv(file = &quot;/Users/KristinGmunder/Documents/GitHub/BST650_introR/data/inflammation-01.csv&quot;, header = FALSE)
+centered &lt;- center(dat[, 4], 0)
+head(centered)</code></pre>
+<pre><code>## [1]  1.25 -0.75  1.25 -1.75  1.25  0.25</code></pre>
+<pre class="r"><code>min(dat[, 4])</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>mean(dat[, 4])</code></pre>
+<pre><code>## [1] 1.75</code></pre>
+<pre class="r"><code>max(dat[, 4])</code></pre>
+<pre><code>## [1] 3</code></pre>
+<pre class="r"><code>min(centered)</code></pre>
+<pre><code>## [1] -1.75</code></pre>
+<pre class="r"><code>mean(centered)</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>max(centered)</code></pre>
+<pre><code>## [1] 1.25</code></pre>
+<pre class="r"><code>sd(dat[, 4])</code></pre>
+<pre><code>## [1] 1.067628</code></pre>
+<pre class="r"><code>sd(centered)</code></pre>
+<pre><code>## [1] 1.067628</code></pre>
+<pre class="r"><code>sd(dat[, 4]) - sd(centered)</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>all.equal(sd(dat[, 4]), sd(centered))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>center &lt;- function(data, desired) {
+  # return a new vector containing the original data centered around the
+  # desired value.
+  # Example: center(c(1, 2, 3), 0) =&gt; c(-1, 0, 1)
+  new_data &lt;- (data - mean(data)) + desired
+  return(new_data)
+}
+
+analyze &lt;- function(filename) {
+  # Plots the average, min, and max inflammation over time.
+  # Input is character string of a csv file.
+  dat &lt;- read.csv(file = filename, header = FALSE)
+  avg_day_inflammation &lt;- apply(dat, 2, mean)
+  plot(avg_day_inflammation)
+  max_day_inflammation &lt;- apply(dat, 2, max)
+  plot(max_day_inflammation)
+  min_day_inflammation &lt;- apply(dat, 2, min)
+  plot(min_day_inflammation)
+}
+
+rescale &lt;- function(v) {
+  # Rescales a vector, v, to lie in the range 0 to 1.
+  L &lt;- min(v)
+  H &lt;- max(v)
+  result &lt;- (v - L) / (H - L)
+  return(result)
+}
+
+dat &lt;- read.csv(&quot;/Users/KristinGmunder/Documents/GitHub/BST650_introR/data/inflammation-01.csv&quot;, FALSE)
+
+center &lt;- function(data, desired = 0) {
+  # return a new vector containing the original data centered around the
+  # desired value (0 by default).
+  # Example: center(c(1, 2, 3), 0) =&gt; c(-1, 0, 1)
+  new_data &lt;- (data - mean(data)) + desired
+  return(new_data)
+}
+
+test_data &lt;- c(0, 0, 0, 0)
+center(test_data, 3)</code></pre>
+<pre><code>## [1] 3 3 3 3</code></pre>
+<pre class="r"><code>more_data &lt;- 5 + test_data
+more_data</code></pre>
+<pre><code>## [1] 5 5 5 5</code></pre>
+<pre class="r"><code>center(more_data)</code></pre>
+<pre><code>## [1] 0 0 0 0</code></pre>
+<pre class="r"><code>display &lt;- function(a = 1, b = 2, c = 3) {
+  result &lt;- c(a, b, c)
+  names(result) &lt;- c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;)  # This names each element of the vector
+  return(result)
+}
+
+# no arguments
+display()</code></pre>
+<pre><code>## a b c 
+## 1 2 3</code></pre>
+<pre class="r"><code># one argument
+display(55)</code></pre>
+<pre><code>##  a  b  c 
+## 55  2  3</code></pre>
+<pre class="r"><code># two arguments
+display(55, 66)</code></pre>
+<pre><code>##  a  b  c 
+## 55 66  3</code></pre>
+<pre class="r"><code># three arguments
+display(55, 66, 77)</code></pre>
+<pre><code>##  a  b  c 
+## 55 66 77</code></pre>
+<pre class="r"><code># only setting the value of c
+display(c = 77)</code></pre>
+<pre><code>##  a  b  c 
+##  1  2 77</code></pre>
+<pre class="r"><code>rescale &lt;- function(v, lower = 0, upper = 1) {
+  # Rescales a vector, v, to lie in the range lower to upper.
+  L &lt;- min(v)
+  H &lt;- max(v)
+  result &lt;- (v - L) / (H - L) * (upper - lower) + lower
+  return(result)
+}</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Create a function called <code>bootstrap()</code> that modifies the behaviour of the <code>sample()</code> function to perform a bootstrap sample on a given vector. Remember that bootstrap samples are the same <strong>length</strong> as the original sample, and remember that these samples are taken <strong>with replacement</strong> (<em>hint, hint</em>).</li>
 </ol>
@@ -241,83 +344,83 @@ boot10 &lt;- c(bootstrap(grades))</code></pre>
 </ol>
 <pre class="r"><code>summary(boot1)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   66.00   76.00   82.00   81.75   90.00   97.00</code></pre>
+##   66.00   78.00   85.50   83.25   91.25   97.00</code></pre>
 <pre class="r"><code>mean(boot1)</code></pre>
-<pre><code>## [1] 81.75</code></pre>
+<pre><code>## [1] 83.25</code></pre>
 <pre class="r"><code>sd(boot1)</code></pre>
-<pre><code>## [1] 10.2879</code></pre>
+<pre><code>## [1] 11.38679</code></pre>
 <p>Boot2:</p>
 <pre class="r"><code>summary(boot2)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   70.00   79.50   85.50   83.58   90.50   92.00</code></pre>
+##   66.00   76.00   83.50   82.83   91.25   97.00</code></pre>
 <pre class="r"><code>mean(boot2)</code></pre>
-<pre><code>## [1] 83.58333</code></pre>
+<pre><code>## [1] 82.83333</code></pre>
 <pre class="r"><code>sd(boot2)</code></pre>
-<pre><code>## [1] 7.879298</code></pre>
+<pre><code>## [1] 11.15049</code></pre>
 <p>Boot3:</p>
 <pre class="r"><code>summary(boot3)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   66.00   84.25   89.00   86.83   92.00   97.00</code></pre>
+##   66.00   81.50   85.00   83.42   87.00   92.00</code></pre>
 <pre class="r"><code>mean(boot3)</code></pre>
-<pre><code>## [1] 86.83333</code></pre>
+<pre><code>## [1] 83.41667</code></pre>
 <pre class="r"><code>sd(boot3)</code></pre>
-<pre><code>## [1] 8.632216</code></pre>
+<pre><code>## [1] 6.894772</code></pre>
 <p>Boot4:</p>
 <pre class="r"><code>summary(boot4)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   78.00   87.50   90.00   89.92   92.75   97.00</code></pre>
+##    66.0    81.0    86.5    83.5    88.5    97.0</code></pre>
 <pre class="r"><code>mean(boot4)</code></pre>
-<pre><code>## [1] 89.91667</code></pre>
+<pre><code>## [1] 83.5</code></pre>
 <pre class="r"><code>sd(boot4)</code></pre>
-<pre><code>## [1] 5.418123</code></pre>
+<pre><code>## [1] 9.567939</code></pre>
 <p>Boot5:</p>
 <pre class="r"><code>summary(boot5)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    66.0    70.0    82.0    81.0    90.5    97.0</code></pre>
+##   66.00   83.75   88.00   85.67   88.50   97.00</code></pre>
 <pre class="r"><code>mean(boot5)</code></pre>
-<pre><code>## [1] 81</code></pre>
+<pre><code>## [1] 85.66667</code></pre>
 <pre class="r"><code>sd(boot5)</code></pre>
-<pre><code>## [1] 11.35381</code></pre>
+<pre><code>## [1] 8.172385</code></pre>
 <p>Boot6:</p>
 <pre class="r"><code>summary(boot6)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   66.00   81.50   88.00   86.00   92.75   97.00</code></pre>
+##   66.00   70.00   85.00   81.08   86.50   95.00</code></pre>
 <pre class="r"><code>mean(boot6)</code></pre>
-<pre><code>## [1] 86</code></pre>
+<pre><code>## [1] 81.08333</code></pre>
 <pre class="r"><code>sd(boot6)</code></pre>
-<pre><code>## [1] 10.0544</code></pre>
+<pre><code>## [1] 10.21103</code></pre>
 <p>Boot7:</p>
 <pre class="r"><code>summary(boot7)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   70.00   78.00   81.00   80.75   85.25   92.00</code></pre>
+##   66.00   66.00   81.00   78.92   86.00   97.00</code></pre>
 <pre class="r"><code>mean(boot7)</code></pre>
-<pre><code>## [1] 80.75</code></pre>
+<pre><code>## [1] 78.91667</code></pre>
 <pre class="r"><code>sd(boot7)</code></pre>
-<pre><code>## [1] 6.397798</code></pre>
+<pre><code>## [1] 10.61267</code></pre>
 <p>Boot8:</p>
 <pre class="r"><code>summary(boot8)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    66.0    81.5    85.0    85.0    90.5    97.0</code></pre>
+##   70.00   81.00   86.00   85.17   89.00   97.00</code></pre>
 <pre class="r"><code>mean(boot8)</code></pre>
-<pre><code>## [1] 85</code></pre>
+<pre><code>## [1] 85.16667</code></pre>
 <pre class="r"><code>sd(boot8)</code></pre>
-<pre><code>## [1] 8.612887</code></pre>
+<pre><code>## [1] 7.918142</code></pre>
 <p>Boot9:</p>
 <pre class="r"><code>summary(boot9)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   66.00   78.00   85.00   82.92   88.50   97.00</code></pre>
+##   70.00   79.50   86.00   86.17   95.00   97.00</code></pre>
 <pre class="r"><code>mean(boot9)</code></pre>
-<pre><code>## [1] 82.91667</code></pre>
+<pre><code>## [1] 86.16667</code></pre>
 <pre class="r"><code>sd(boot9)</code></pre>
-<pre><code>## [1] 8.887768</code></pre>
+<pre><code>## [1] 8.819744</code></pre>
 <p>Boot10:</p>
 <pre class="r"><code>summary(boot10)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   66.00   77.50   86.00   82.92   89.00   95.00</code></pre>
+##   66.00   79.50   88.00   86.33   95.00   97.00</code></pre>
 <pre class="r"><code>mean(boot10)</code></pre>
-<pre><code>## [1] 82.91667</code></pre>
+<pre><code>## [1] 86.33333</code></pre>
 <pre class="r"><code>sd(boot10)</code></pre>
-<pre><code>## [1] 10.36128</code></pre>
+<pre><code>## [1] 9.660918</code></pre>
 <ol start="5" style="list-style-type: decimal">
 <li>Create a data frame of these summary statistics (10 rows and seven columns).</li>
 </ol>

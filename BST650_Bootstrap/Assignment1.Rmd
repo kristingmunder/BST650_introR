@@ -83,6 +83,106 @@ z
 
 center(z, 3)
 
+dat <- read.csv(file = "/Users/KristinGmunder/Documents/GitHub/BST650_introR/data/inflammation-01.csv", header = FALSE)
+centered <- center(dat[, 4], 0)
+head(centered)
+
+min(dat[, 4])
+
+mean(dat[, 4])
+
+max(dat[, 4])
+
+min(centered)
+
+mean(centered)
+
+max(centered)
+
+sd(dat[, 4])
+
+sd(centered)
+
+sd(dat[, 4]) - sd(centered)
+
+all.equal(sd(dat[, 4]), sd(centered))
+
+center <- function(data, desired) {
+  # return a new vector containing the original data centered around the
+  # desired value.
+  # Example: center(c(1, 2, 3), 0) => c(-1, 0, 1)
+  new_data <- (data - mean(data)) + desired
+  return(new_data)
+}
+
+analyze <- function(filename) {
+  # Plots the average, min, and max inflammation over time.
+  # Input is character string of a csv file.
+  dat <- read.csv(file = filename, header = FALSE)
+  avg_day_inflammation <- apply(dat, 2, mean)
+  plot(avg_day_inflammation)
+  max_day_inflammation <- apply(dat, 2, max)
+  plot(max_day_inflammation)
+  min_day_inflammation <- apply(dat, 2, min)
+  plot(min_day_inflammation)
+}
+
+rescale <- function(v) {
+  # Rescales a vector, v, to lie in the range 0 to 1.
+  L <- min(v)
+  H <- max(v)
+  result <- (v - L) / (H - L)
+  return(result)
+}
+
+dat <- read.csv("/Users/KristinGmunder/Documents/GitHub/BST650_introR/data/inflammation-01.csv", FALSE)
+
+center <- function(data, desired = 0) {
+  # return a new vector containing the original data centered around the
+  # desired value (0 by default).
+  # Example: center(c(1, 2, 3), 0) => c(-1, 0, 1)
+  new_data <- (data - mean(data)) + desired
+  return(new_data)
+}
+
+test_data <- c(0, 0, 0, 0)
+center(test_data, 3)
+
+more_data <- 5 + test_data
+more_data
+
+center(more_data)
+
+display <- function(a = 1, b = 2, c = 3) {
+  result <- c(a, b, c)
+  names(result) <- c("a", "b", "c")  # This names each element of the vector
+  return(result)
+}
+
+# no arguments
+display()
+
+# one argument
+display(55)
+
+# two arguments
+display(55, 66)
+
+# three arguments
+display(55, 66, 77)
+
+# only setting the value of c
+display(c = 77)
+
+rescale <- function(v, lower = 0, upper = 1) {
+  # Rescales a vector, v, to lie in the range lower to upper.
+  L <- min(v)
+  H <- max(v)
+  result <- (v - L) / (H - L) * (upper - lower) + lower
+  return(result)
+}
+
+
 
 ```
 
