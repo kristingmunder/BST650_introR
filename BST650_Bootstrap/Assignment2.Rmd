@@ -1,0 +1,124 @@
+---
+title: "Assignment2"
+author: "Kristin Gmunder"
+date: "10/15/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+wcgs_df <- read.csv(file = "/Users/KristinGmunder/Documents/wcgs.csv", header = TRUE, stringsAsFactors = FALSE)
+head(wcgs_df)
+```
+
+####### Descriptive Statistics ##############################################################
+```{r}
+summary(wcgs_df)
+```
+
+# Add a BMI column
+```{r}
+wcgs_df$BMI <- (wcgs_df$weight*703)/ (wcgs_df$height^2)
+```  
+
+# True mean BMI
+```{r}
+mean(wcgs_df$BMI) #24.52
+```
+
+
+### Part 1
+Look through the rest of the `lapply()` call that we didn't finish this morning. Create a function called `CheckCoverage()` with the following arguments:
+
+- `x`: a vector
+- `n`: the size of the random sample to draw from `x`
+- `alpha`: the tolerance for a Type-I error. This should default to `0.05`.
+
+This function should return a single logical value indicating whether the $1- \alpha$-level confidence interval contains the true value of the mean. Test your function to ensure it works as intended.
+
+```{r}
+CheckCoverage <- function(x, n, alpha = 0.05) {
+  x <- x[!is.na(x)] # Remove missing values
+  # Step 1: The "Truth" (null hypothesis)
+  xMu <- mean(x, na.rm = TRUE) # "true" mean
+  # Step 2: randomly select n values from sample
+  sampx <- sample(x, size = n, replace = FALSE)
+  # Step 3: Construct a 95% CI
+  t_mod <- t.test(
+    x = sampx,
+    mu = xMu,
+    alternative = "two.sided",
+    conf.level = 1 - alpha
+  )
+  # Step 4: Test if the population mean is contained in the CI
+  CI <- t_mod$conf.int
+  (CI[1] < xMu) && (xMu < CI[2])      
+}      
+  
+CheckCoverage(wcgs_df$BMI)
+
+```
+
+
+### Part 2
+Apply the `CheckCoverage()` function you wrote in Part 1 to find the coverage probability after 10,000 replicates (HINT: use the `replicate()` function instead of `lapply()`; see `?replicate` for more information) for sample sizes of 10, 30, and 50 for the following measurements:
+
+- `arcus`
+```{r}
+rep_arcus_10 <- replicate(10000, CheckCoverage(x = wcgs_df$arcus, n = 10))
+mean(rep_arcus_10, na.rm = TRUE)
+rep_arcus_30 <- replicate(10000, CheckCoverage(x = wcgs_df$arcus, n = 30))
+mean(rep_arcus_30)
+rep_arcus_50 <- replicate(10000, CheckCoverage(x = wcgs_df$arcus, n = 50))
+mean(rep_arcus_50)
+```
+
+- `height`
+```{r}
+rep_height_10 <- replicate(10000, CheckCoverage(x = wcgs_df$height, n = 10))
+mean(rep_height_10)
+rep_height_30 <- replicate(10000, CheckCoverage(x = wcgs_df$height, n = 30))
+mean(rep_height_30)
+rep_height_50 <- replicate(10000, CheckCoverage(x = wcgs_df$height, n = 50))
+mean(rep_height_50)
+```
+
+- `ncigs`
+```{r}
+rep_ncigs_10 <- replicate(10000, CheckCoverage(x = wcgs_df$ncigs, n = 10))
+mean(rep_ncigs_10, na.rm = TRUE)
+rep_ncigs_30 <- replicate(10000, CheckCoverage(x = wcgs_df$ncigs, n = 30))
+mean(rep_ncigs_30)
+rep_ncigs_50 <- replicate(10000, CheckCoverage(x = wcgs_df$ncigs, n = 50))
+mean(rep_ncigs_50)
+```
+
+- `BMI` (we calculated this column ourselves)
+```{r}
+rep_BMI_10 <- replicate(10000, CheckCoverage(x = wcgs_df$BMI, n = 10))
+mean(rep_BMI_10)
+rep_BMI_30 <- replicate(10000, CheckCoverage(x = wcgs_df$BMI, n = 30))
+mean(rep_BMI_30)
+rep_BMI_50 <- replicate(10000, CheckCoverage(x = wcgs_df$BMI, n = 50))
+mean(rep_BMI_50)
+```
+
+### Part 3
+Inspect the histograms or densities of the four above measurements of interest. Can you draw any conclusions about the coverage results you saw in Part 2 and the shapes of these four measurements?
+```{r}
+hist(wcgs_df$arcus)
+#Arcus is a binomial variable, so the only possible values it takes on are 0 and 1.  Therefore, since this data is not normally distributed, it may be more likely that we make an error (either type I or type II), since we are violating an assumption of hypothesis testing.  The coverage results in the size 10 sample of arcus was 0.98 which is a bit higher than we were expecting.  Perhaps, the lack of normality in the data is the cause of this.
+
+hist(wcgs_df$height)
+#Height looks pretty normally distributed.  Therefore, it seems we are not violating the assumption of normality when we do hypothesis testing.  Our coverage results for all three sizes are very close to what we were expecting.
+
+hist(wcgs_df$ncigs)
+#Ncigs looks skewed and not normally distributed.  Perhaps, this is becuase there are many non-smokers in the population, thus skewing the number of cigarettes more towards 0.  Therefore, it is highly likely we are violating an assumption of hypothesis testing as our data is not normally distributed.  The coverage results in the size 10 sample of arcus was 0.92 which is a bit lower than we were expecting.  Perhaps, the lack of normality in the data is the cause of this.
+
+hist(wcgs_df$BMI)
+##BMI looks pretty normally distributed.  Therefore, it seems we are not violating the assumption of normality when we do hypothesis testing.  Our coverage results for all three sizes are very close to what we were expecting (0.95).
+```
+
