@@ -1,0 +1,58 @@
+---
+title: "Assignment 4"
+author: "Kristin Gmunder"
+date: "10/29/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Write a bootstrap function
+
+```{r}
+wcgs_df <- read.csv(file = "/Users/KristinGmunder/Documents/wcgs.csv", header = TRUE, stringsAsFactors = FALSE)
+head(wcgs_df)
+
+bootstrapThe <- function(x, statistic, n = NULL) {
+  
+  if ((is.matrix(x) == TRUE) || (is.data.frame(x) == TRUE)) {
+    x <- na.omit(x)
+    if (is.null(n)) {
+      n <- nrow(x)
+    }  
+   if (nrow(x) >= n) { 
+     sampID <- sample(nrow(x), n, replace = TRUE)
+     sampX <- x[sampID, ]
+    } else {
+      stop("Cannot calculate bootstrap statistic as the 'n' desired is greater than the size of the data.")
+    }
+    
+  } else if ((is.atomic(x) == TRUE) || (is.list(x) == TRUE)) {
+    x <- x[!is.na(x)]
+    if (is.null(n)) {
+      n <- length(x)
+    }  
+    if (length(x) >= n) {
+     sampX <- sample(x, n, replace = TRUE)
+    } else {
+      stop("Cannot calculate bootstrap statistic as the 'n' desired is greater than the size of the data.")  
+    }
+  
+  } else {
+    stop("Requires matrix, data frame, atomic, or list")
+  }
+  
+statistic(sampX)  
+
+}
+
+bootstrapThe(wcgs_df, mean, 10) #mean does not work on data frames
+
+bootstrapThe(wcgs_df$age, mean)
+# bootstrapThe(wcgs_df$age, mean, 4000)
+bootstrapThe(wcgs_df$age, var)
+bootstrapThe(wcgs_df[,c(2,7)], cov)
+boot1000 <- replicate(1000, bootstrapThe(wcgs_df$arcus, mean, 30))
+```
